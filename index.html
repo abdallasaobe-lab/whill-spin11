@@ -114,10 +114,9 @@
     // ===================== الإعدادات =====================
     const CONFIG = {
         pricePerSpin: 2000,
-        // هام جداً: تأكد أن هذا هو الرابط الصحيح للسيرفر الذي يعمل عليه ملف main.py
-        // إذا كنت تجرب محلياً: http://127.0.0.1:5000
-        // إذا رفعت السيرفر: http://IP_SERVER:5000
-        baseUrl: 'http://127.0.0.1:5000' 
+        // هام جداً: استبدل هذا الرابط برابط ngrok الخاص بك (بدون /api/spin)
+        // مثال: 'https://a1b2-c3d4.ngrok-free.app'
+        baseUrl: 'https://8771df27d3e60236-193-43-140-112.serveousercontent.com' 
     };
 
     // ===================== الجوائز (مطابقة تماماً للكود بايثون) =====================
@@ -166,7 +165,7 @@
             } else {
                 // وضع المعاينة (للتجربة على الكمبيوتر بدون بوت)
                 state.userId = 12345678;
-                state.balance = 5000; // رصيد تجريبي للمعاينة فقط
+                state.balance = 5000; // رصيد تجريبي للمعاينة
                 state.userName = "وضع المعاينة";
                 updateUI();
             }
@@ -178,7 +177,10 @@
     // ===================== دالة جلب الرصيد (جديدة) =====================
     async function fetchUserData() {
         try {
-            const response = await fetch(`${CONFIG.baseUrl}/api/get_me`, {
+            // التوجه إلى الرابط الصحيح: /api/get_me
+            const url = CONFIG.baseUrl + '/api/get_me';
+            
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -192,15 +194,14 @@
             if (data.success) {
                 state.balance = data.balance;
                 state.hasFreeSpin = data.has_free_spin;
-                updateUI(); // تحديث الشاشة بالأرقام الجديدة
+                updateUI(); // تحديث الشاشة
             } else {
-                console.log("User not found in DB or error");
-                // إذا لم يجد المستخدم، قد يعني ذلك أنه لم يفتح البوت بعد
-                document.getElementById('displayBalance').textContent = "افتح البوت أولاً";
+                console.log("User not found in DB");
+                document.getElementById('displayBalance').textContent = "سجل في البوت";
             }
         } catch (e) {
             console.error("Error fetching balance", e);
-            showToast("فشل الاتصال بالسيرفر لجلب الرصيد");
+            showToast("فشل الاتصال بالسيرفر (تأكد من رابط Ngrok)");
         }
     }
 
@@ -282,7 +283,7 @@
     async function spin() {
         if (state.isSpinning) return;
 
-        // فحص محلي سريع (التحقق الحقيقي يتم في السيرفر)
+        // فحص محلي سريع
         if (!state.hasFreeSpin && state.balance < CONFIG.pricePerSpin) {
             showToast('رصيد غير كافي، قم بالإيداع أولاً');
             return;
@@ -295,13 +296,13 @@
         btn.innerHTML = 'انتظر<br>...';
 
         try {
-            // إرسال طلب الدوران للسيرفر
-            const response = await fetch(`${CONFIG.baseUrl}/api/spin`, {
+            // التوجه إلى الرابط الصحيح: /api/spin
+            const response = await fetch(CONFIG.baseUrl + '/api/spin', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     user_id: state.userId,
-                    init_data: window.Telegram.WebApp.initData, // بيانات أمان
+                    init_data: window.Telegram.WebApp.initData,
                     is_free_spin: state.hasFreeSpin
                 })
             });
@@ -322,7 +323,7 @@
 
         } catch (e) {
             console.error(e);
-            showToast('فشل الاتصال بالسيرفر. تأكد من تشغيل البوت والرابط صحيح.');
+            showToast('فشل الاتصال بالسيرفر. تأكد من رابط Ngrok');
             resetSpinButton();
         }
     }
@@ -346,7 +347,6 @@
     }
 
     function handleResult(prize, index) {
-        // تحديث الواجهة بعد الفوز
         if (prize.type === 'free_spin') {
             showResult(prize, true, false, true);
         } else if (prize.type !== 'lose') {
@@ -382,7 +382,7 @@
         btn.disabled = false;
         btn.classList.remove('loading');
         btn.innerHTML = 'ابقِ<br>دور';
-        updateUI(); // لتحديث شكل الزر (إذا كانت هناك لفة مجانية)
+        updateUI();
     }
 
     // ===================== واجهة المستخدم =====================
