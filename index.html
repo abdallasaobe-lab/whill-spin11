@@ -119,21 +119,23 @@
     // ===================== الإعدادات =====================
     const CONFIG = {
         pricePerSpin: 2000,
-        baseUrl: 'https://unbegrudged-direfully-nu.ngrok-free.dev' // غيّر هذا الرابط إذا تغير Ngrok
+        baseUrl: 'https://unbegrudged-direfully-nu.ngrok-free.dev' // تأكد من تحديث الرابط
     };
 
-    // ===================== الجوائز =====================
+    // ===================== الجوائز (مالية فقط) =====================
+    // الفهرس 6 = لفة مجانية (هدف)
+    // الفهرس 9 = حظ أوفر (هدف)
     const PRIZES = [
-        { label: '5,000,000', sub: 'ل.س', color: '#dc2626', type: 'jackpot', icon: '💎' },
-        { label: 'آيفون 15', sub: 'Pro Max', color: '#1d4ed8', type: 'phone', icon: '📱' },
-        { label: '1,000,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💰' },
-        { label: 'سامسونج', sub: 'S24 Ultra', color: '#7c3aed', type: 'phone', icon: '📱' },
-        { label: '500,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },
-        { label: 'ساعة ذكية', sub: 'Apple Watch', color: '#0891b2', type: 'gadget', icon: '⌚' },
-        { label: 'لفة مجانية', sub: 'بدون خصم', color: '#06b6d4', type: 'free_spin', icon: '🔄' }, // Index 6
-        { label: 'AirPods', sub: 'Pro 2', color: '#6366f1', type: 'gadget', icon: '🎧' },
-        { label: '100,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },
-        { label: 'حظ أوفر', sub: '', color: '#4b5563', type: 'lose', icon: '💔' }, // Index 9
+        { label: '5,000,000', sub: 'ل.س', color: '#dc2626', type: 'cash', icon: '💎' },      // 0
+        { label: '2,000,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💰' },      // 1
+        { label: '1,000,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💰' },      // 2
+        { label: '800,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },        // 3
+        { label: '500,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },        // 4
+        { label: '300,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },        // 5
+        { label: 'لفة مجانية', sub: 'هدية', color: '#06b6d4', type: 'free_spin', icon: '🔄' }, // 6 (سهم يقف هنا)
+        { label: '200,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },        // 7
+        { label: '100,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💵' },        // 8
+        { label: 'حظ أوفر', sub: 'حاول مجدداً', color: '#4b5563', type: 'lose', icon: '💔' },  // 9 (سهم يقف هنا)
     ];
 
     // ===================== الحالة =====================
@@ -149,18 +151,16 @@
 
     let tgApp = null;
 
-    // ===================== أدوات الصوت =====================
     function playSound(id) {
         try {
             const sound = document.getElementById(id);
             if (sound) {
                 sound.currentTime = 0;
-                sound.play().catch(e => console.log("Audio blocked:", e));
+                sound.play().catch(e => console.log("Audio blocked", e));
             }
         } catch (e) {}
     }
 
-    // ===================== تهيئة تيليجرام =====================
     async function initTelegram() {
         try {
             tgApp = window.Telegram.WebApp;
@@ -184,11 +184,9 @@
         }
     }
 
-    // ===================== دالة جلب الرصيد والجاكبوت =====================
     async function fetchUserData() {
         try {
             const url = CONFIG.baseUrl + '/api/get_me';
-            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -197,9 +195,7 @@
                     init_data: window.Telegram.WebApp.initData
                 })
             });
-            
             const data = await response.json();
-            
             if (data.success) {
                 state.balance = data.balance;
                 state.hasFreeSpin = data.has_free_spin;
@@ -210,11 +206,10 @@
             }
         } catch (e) {
             console.error("Error fetching balance", e);
-            showToast("فشل الاتصال بالسيرفر");
+            showToast("فشل الاتصال");
         }
     }
 
-    // ===================== رسم العجلة =====================
     const canvas = document.getElementById('wheelCanvas');
     const ctx = canvas.getContext('2d');
     const cx = canvas.width / 2;
@@ -286,7 +281,6 @@
         return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
     }
 
-    // ===================== منطق الدوران =====================
     async function spin() {
         if (state.isSpinning) return;
 
@@ -320,7 +314,7 @@
                 state.hasFreeSpin = data.has_free_spin;
                 if (data.jackpot) state.jackpot = data.jackpot;
                 
-                // نمرر الفهرس القادم من البوت (سيكون 6 أو 9 فقط)
+                // البوت يرسل فهرس 6 أو 9 فقط
                 animateWheel(data.prize_index);
             } else {
                 showToast(data.message || 'حدث خطأ');
@@ -329,13 +323,13 @@
 
         } catch (e) {
             console.error(e);
-            showToast('فشل الاتصال بالسيرفر');
+            showToast('فشل الاتصال');
             resetSpinButton();
         }
     }
 
     function animateWheel(prizeIndex) {
-        // حساب زاوية الوقوف بناءً على الفهرس الحقيقي
+        // حساب الزاوية للفهرس القادم (6 أو 9)
         const prizeAngleDeg = (prizeIndex * (360 / PRIZES.length)) + (360 / PRIZES.length / 2);
         const spins = 5 + Math.floor(Math.random() * 3);
         const stopAtDeg = 360 - prizeAngleDeg;
@@ -348,14 +342,12 @@
         canvas.style.transform = `rotate(${state.currentRotation}rad)`;
 
         setTimeout(() => {
-            // نمرر الجائزة الحقيقية التي وقف عليها السهم
             handleResult(PRIZES[prizeIndex]);
             resetSpinButton();
         }, 6200);
     }
 
     function handleResult(prize) {
-        // الآن prize هو الكائن الحقيقي (إما لفة مجانية أو حظ أوفر)
         if (prize.type === 'free_spin') {
             playSound('soundWin');
             showResult(prize, true, false, true);
@@ -393,7 +385,6 @@
         updateUI();
     }
 
-    // ===================== واجهة المستخدم =====================
     function updateUI() {
         document.getElementById('displayBalance').textContent = state.balance.toLocaleString();
         document.getElementById('displayJackpot').textContent = state.jackpot.toLocaleString();
@@ -433,7 +424,6 @@
         setTimeout(() => box.innerHTML = '', 4000);
     }
 
-    // ===================== البدء =====================
     document.addEventListener('DOMContentLoaded', () => {
         initTelegram();
         drawWheel();
