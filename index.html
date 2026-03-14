@@ -20,7 +20,6 @@
         .wheel-glow { position: absolute; inset: -20px; background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%); filter: blur(20px); animation: pulse 4s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        /* مؤشر السهم - تم تعديله ليكون أدق */
         .pointer-box { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); z-index: 50; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8)); }
         .pointer-box svg { width: 30px; height: 40px; }
         
@@ -54,7 +53,8 @@
     <section class="user-panel p-4 mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <div class="text-gray-400 text-xs">رصيدك</div>
+                <!-- تمت إضافة مكان للاسم -->
+                <div class="text-gray-400 text-xs">مرحباً، <span id="displayUsername" class="text-white font-bold">...</span></div>
                 <div class="balance-num" id="displayBalance">...</div>
                 <div id="freeSpinStatus" class="hidden mt-1"><span class="free-spin-badge">لفة مجانية!</span></div>
             </div>
@@ -65,7 +65,6 @@
     <section class="wheel-stage mb-8">
         <div class="wheel-glow"></div>
         <div class="pointer-box">
-            <!-- سهم مثلت اسود حاد -->
             <svg viewBox="0 0 30 40">
                 <path d="M15 40 L0 0 L30 0 Z" fill="#000" stroke="#fbbf24" stroke-width="2"/>
             </svg>
@@ -86,14 +85,11 @@
 <div class="toast" id="toastBox"></div>
 
 <script>
-    // ===================== الإعدادات =====================
     const CONFIG = {
         pricePerSpin: 2000,
-        // هام: غيّر هذا الرابط للرابط الجديد من Ngrok
-        baseUrl: 'https://unbegrudged-direfully-nu.ngrok-free.dev' 
+        baseUrl: 'https://unbegrudged-direfully-nu.ngrok-free.dev' // غيّر الرابط إذا لزم الأمر
     };
 
-    // ===================== الجوائز (6=لفة مجانية, 9=حظ أوفر) =====================
     const PRIZES = [
         { label: '5,000,000', sub: 'ل.س', color: '#dc2626', type: 'cash', icon: '💎' },
         { label: '2,000,000', sub: 'ل.س', color: '#16a34a', type: 'cash', icon: '💰' },
@@ -107,7 +103,7 @@
         { label: 'حظ أوفر', sub: 'خسارة', color: '#4b5563', type: 'lose', icon: '💔' },
     ];
 
-    let state = { balance: 0, jackpot: 15000000, isSpinning: false, currentRotation: 0, userId: null, hasFreeSpin: false };
+    let state = { balance: 0, jackpot: 15000000, isSpinning: false, currentRotation: 0, userId: null, userName: 'زائر', hasFreeSpin: false };
     let tgApp = null;
 
     async function initTelegram() {
@@ -116,7 +112,14 @@
             if (tgApp.initDataUnsafe && tgApp.initDataUnsafe.user) {
                 state.userId = tgApp.initDataUnsafe.user.id;
                 await fetchUserData(); 
-            } else { state.userId = 123456; state.balance = 5000; updateUI(); }
+            } else {
+                // وضع المعاينة أو عدم التسجيل
+                showToast("⚠️ يجب فتح الموقع من البوت بعد التسجيل");
+                document.getElementById('btnSpin').disabled = true;
+                document.getElementById('btnSpin').innerHTML = "🚫<br>ممنوع";
+                document.getElementById('displayUsername').textContent = "زائر";
+                document.getElementById('displayBalance').textContent = "0";
+            }
         } catch (e) { console.error(e); }
     }
 
@@ -127,7 +130,22 @@
                 body: JSON.stringify({ user_id: state.userId })
             });
             const data = await res.json();
-            if (data.success) { state.balance = data.balance; state.hasFreeSpin = data.has_free_spin; state.jackpot = data.jackpot; updateUI(); }
+            if (data.success) {
+                state.balance = data.balance;
+                state.hasFreeSpin = data.has_free_spin;
+                state.jackpot = data.jackpot;
+                state.userName = data.username || "مستخدم";
+                // تحديث الاسم في الواجهة
+                document.getElementById('displayUsername').textContent = state.userName;
+                updateUI();
+            } else {
+                // المستخدم موجود في تيليجرام لكن غير مسجل في البوت
+                showToast("⚠️ أنت غير مسجل في البوت");
+                document.getElementById('btnSpin').disabled = true;
+                document.getElementById('btnSpin').innerHTML = "سجل<br>أولاً";
+                document.getElementById('displayUsername').textContent = "غير مسجل";
+                document.getElementById('displayBalance').textContent = "0";
+            }
         } catch (e) { showToast("فشل الاتصال بالسيرفر"); }
     }
 
@@ -138,31 +156,22 @@
     function drawWheel() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         PRIZES.forEach((p, i) => {
-            // نبدأ الرسم من الأعلى (-90 درجة)
-            const startAngle = i * sliceAngle - Math.PI / 2;
-            const endAngle = startAngle + sliceAngle;
-
+            const startAngle = i * sliceAngle - Math.PI / 2; const endAngle = startAngle + sliceAngle;
             ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, startAngle, endAngle); ctx.closePath();
             ctx.fillStyle = p.color; ctx.fill();
             ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
-
-            // النص
             ctx.save();
-            ctx.translate(cx, cy);
-            ctx.rotate(startAngle + sliceAngle / 2); // نصف الزاوية
-            ctx.translate(radius * 0.7, 0);
-            ctx.rotate(Math.PI / 2); // جعل النص أفقي
+            ctx.translate(cx, cy); ctx.rotate(startAngle + sliceAngle / 2); ctx.translate(radius * 0.7, 0); ctx.rotate(Math.PI / 2);
             ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Tajawal'; ctx.textAlign = 'center'; ctx.shadowColor='#000'; ctx.shadowBlur=4;
-            ctx.fillText(p.label, 0, -6);
-            ctx.font = '10px Tajawal'; ctx.fillText(p.sub, 0, 8);
+            ctx.fillText(p.label, 0, -6); ctx.font = '10px Tajawal'; ctx.fillText(p.sub, 0, 8);
             ctx.restore();
         });
-        // الدائرة الوسطية
         ctx.beginPath(); ctx.arc(cx, cy, 35, 0, 2 * Math.PI); ctx.fillStyle='#1a1a2e'; ctx.fill(); ctx.strokeStyle='#fbbf24'; ctx.lineWidth=3; ctx.stroke();
     }
 
     async function spin() {
         if (state.isSpinning) return;
+        if (!state.userId) { showToast("يجب التسجيل أولاً"); return; }
         if (!state.hasFreeSpin && state.balance < CONFIG.pricePerSpin) { showToast('رصيد غير كافي'); return; }
         state.isSpinning = true; document.getElementById('btnSpin').disabled = true; document.getElementById('btnSpin').innerHTML='...';
         
@@ -174,33 +183,19 @@
             const data = await res.json();
             if (data.success) {
                 state.balance = data.new_balance; state.hasFreeSpin = data.has_free_spin; state.jackpot = data.jackpot;
-                // البوت يرسل رقم 6 أو 9 فقط
                 animateWheel(data.prize_index);
             } else { showToast(data.message); state.isSpinning = false; updateUI(); }
         } catch(e) { showToast("خطأ اتصال"); state.isSpinning = false; updateUI(); }
     }
 
     function animateWheel(targetIndex) {
-        // حساب الزاوية الهدف
-        // البداية من الأعلى (270 درجة أو -90). الشرائح مرسومة بالترتيب.
-        // الشريحة i تبدأ عند (i * 36 - 90).
-        // مركز الشريحة i عند (i * 36 - 90 + 18).
-        
-        const targetAngleDeg = (targetIndex * 36) + 18; // الموقع على الدائرة (0 هو الأعلى بسبب رسم Canvas)
-        // نحتاج لتدوير العجلة بحيث يأتي مركز الشريحة عند المؤشر (الأعلى، أي 0 درجة في الحركة)
-        // المعادلة القياسية: 360 - (زاوية الهدف)
+        const targetAngleDeg = (targetIndex * 36) + 18;
         const stopAtDeg = 360 - targetAngleDeg;
-        
         const spins = 5 + Math.floor(Math.random() * 3);
         const totalRotationDeg = (spins * 360) + stopAtDeg;
-        
-        // تحديث الـ CSS
         canvas.style.transition = 'transform 5s cubic-bezier(0.2, 0.8, 0.3, 1)';
         canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
-        
-        // تحديث الحالة الداخلية
         state.currentRotation = totalRotationDeg;
-
         setTimeout(() => {
             handleResult(PRIZES[targetIndex]);
             state.isSpinning = false; updateUI();
