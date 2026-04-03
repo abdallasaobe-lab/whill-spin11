@@ -19,14 +19,12 @@
             --danger: #ef4444;
             --free-spin: #06b6d4;
         }
-
         * {
             font-family: 'Tajawal', sans-serif;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
-
         body {
             margin: 0;
             min-height: 100vh;
@@ -36,20 +34,10 @@
             overflow-x: hidden;
             overflow-y: auto;
         }
-
-        /* === خلفية متحركة متعددة الطبقات === */
-        .bg-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-        }
-
+        .bg-canvas { position: fixed; inset: 0; z-index: 0; }
         .bg-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            pointer-events: none;
-            z-index: 0;
+            position: fixed; border-radius: 50%; filter: blur(80px);
+            pointer-events: none; z-index: 0;
         }
         .bg-orb-1 {
             width: 300px; height: 300px;
@@ -69,7 +57,6 @@
             bottom: 30%; left: -30px;
             animation: orbFloat3 12s ease-in-out infinite;
         }
-
         @keyframes orbFloat1 {
             0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
             50% { transform: translateX(-50%) translateY(30px) scale(1.15); }
@@ -82,20 +69,16 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(20px); }
         }
-
-        /* === بطاقة الجاكبوت === */
         .jackpot-card {
             background: linear-gradient(135deg, rgba(30,30,55,0.9) 0%, rgba(15,15,30,0.95) 100%);
             border: 1px solid rgba(251, 191, 36, 0.3);
             border-radius: 20px;
             backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .jackpot-card::before {
             content: '';
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(105deg, transparent 40%, rgba(251,191,36,0.05) 45%, rgba(251,191,36,0.1) 50%, rgba(251,191,36,0.05) 55%, transparent 60%);
             animation: shimmer 4s ease-in-out infinite;
         }
@@ -104,182 +87,121 @@
             100% { transform: translateX(100%); }
         }
         .jackpot-value {
-            font-size: 2.2rem;
-            font-weight: 900;
+            font-size: 2.2rem; font-weight: 900;
             background: linear-gradient(180deg, #fef3c7 0%, #fcd34d 30%, #f59e0b 70%, #d97706 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 10px rgba(251,191,36,0.3));
             letter-spacing: 1px;
         }
         .jackpot-label {
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(251,191,36,0.6);
-            font-weight: 700;
+            font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+            color: rgba(251,191,36,0.6); font-weight: 700;
         }
-        .jackpot-crown { font-size: 1.5rem; animation: crownBounce 2s ease-in-out infinite; display: inline-block; }
+        .jackpot-crown {
+            font-size: 1.5rem; animation: crownBounce 2s ease-in-out infinite; display: inline-block;
+        }
         @keyframes crownBounce {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             25% { transform: translateY(-3px) rotate(-3deg); }
             75% { transform: translateY(-3px) rotate(3deg); }
         }
-
-        /* === لوحة المستخدم === */
         .user-panel {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 20px;
             backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .user-panel::after {
             content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
         }
         .balance-num {
-            font-size: 1.8rem;
-            font-weight: 900;
+            font-size: 1.8rem; font-weight: 900;
             color: var(--success);
             text-shadow: 0 0 20px rgba(16,185,129,0.3);
         }
         .deposit-btn {
             background: linear-gradient(135deg, #10b981, #059669);
-            border: none;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 14px;
-            font-weight: 900;
-            font-size: 0.85rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+            border: none; color: white; padding: 10px 24px; border-radius: 14px;
+            font-weight: 900; font-size: 0.85rem; cursor: pointer;
+            position: relative; overflow: hidden; transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3); text-decoration: none;
+            display: inline-block;
         }
         .deposit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
+            content: ''; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: 0.5s;
         }
         .deposit-btn:hover::before { left: 100%; }
         .deposit-btn:active { transform: scale(0.95); }
-
         .free-spin-badge {
             background: linear-gradient(135deg, #06b6d4, #0891b2);
-            color: white;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            color: white; padding: 5px 14px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700;
             animation: badgePulse 1.5s ease-in-out infinite;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            display: inline-flex; align-items: center; gap: 4px;
             box-shadow: 0 0 15px rgba(6,182,212,0.4);
         }
         @keyframes badgePulse {
             0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 0 15px rgba(6,182,212,0.4); }
             50% { transform: translateY(-3px) scale(1.05); box-shadow: 0 0 25px rgba(6,182,212,0.6); }
         }
-
-        /* === منطقة العجلة === */
         .wheel-stage {
-            position: relative;
-            width: 340px;
-            height: 340px;
-            margin: 16px auto;
+            position: relative; width: 340px; height: 340px; margin: 16px auto;
         }
-
-        /* حلقة الإضاءة الخارجية */
         .wheel-outer-ring {
-            position: absolute;
-            inset: -12px;
-            border-radius: 50%;
+            position: absolute; inset: -12px; border-radius: 50%;
             border: 2px solid rgba(251,191,36,0.2);
             animation: ringRotate 20s linear infinite;
         }
         .wheel-outer-ring-2 {
-            position: absolute;
-            inset: -20px;
-            border-radius: 50%;
+            position: absolute; inset: -20px; border-radius: 50%;
             border: 1px solid rgba(251,191,36,0.08);
             animation: ringRotate 30s linear infinite reverse;
         }
         @keyframes ringRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .wheel-glow {
-            position: absolute;
-            inset: -30px;
+            position: absolute; inset: -30px;
             background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
-            filter: blur(25px);
-            animation: glowPulse 3s ease-in-out infinite;
-            border-radius: 50%;
+            filter: blur(25px); animation: glowPulse 3s ease-in-out infinite;
+            border-radius: 50%; transition: background 0.5s;
         }
         @keyframes glowPulse {
             0%, 100% { opacity: 0.4; transform: scale(0.95); }
             50% { opacity: 1; transform: scale(1.05); }
         }
-
-        /* مؤشر محسّن */
         .pointer-box {
-            position: absolute;
-            top: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 50;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.9));
-            transition: transform 0.1s;
+            position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+            z-index: 50; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.9));
         }
-        .pointer-box.bounce { animation: pointerBounce 0.15s ease-out; }
+        .pointer-box.bounce { animation: pointerBounce 0.12s ease-out; }
         @keyframes pointerBounce {
             0% { transform: translateX(-50%) scaleY(1); }
-            50% { transform: translateX(-50%) scaleY(0.85); }
+            50% { transform: translateX(-50%) scaleY(0.82); }
             100% { transform: translateX(-50%) scaleY(1); }
         }
-
-        /* زر الدوران المحسّن */
         .spin-btn-main {
-            position: absolute;
-            top: 50%; left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 82px; height: 82px;
-            border-radius: 50%;
+            width: 82px; height: 82px; border-radius: 50%;
             background: linear-gradient(145deg, #fcd34d, #f59e0b, #d97706);
             border: 3px solid rgba(255,255,255,0.8);
-            color: #000;
-            font-weight: 900;
-            font-size: 0.95rem;
-            cursor: pointer;
-            z-index: 40;
-            box-shadow:
-                0 0 20px rgba(251,191,36,0.4),
-                0 0 40px rgba(251,191,36,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.4);
+            color: #000; font-weight: 900; font-size: 0.95rem;
+            cursor: pointer; z-index: 40;
+            box-shadow: 0 0 20px rgba(251,191,36,0.4), 0 0 40px rgba(251,191,36,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            line-height: 1.3;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+            line-height: 1.3; text-shadow: 0 1px 0 rgba(255,255,255,0.3);
         }
         .spin-btn-main:hover:not(:disabled) {
             transform: translate(-50%, -50%) scale(1.08);
             box-shadow: 0 0 30px rgba(251,191,36,0.6), 0 0 60px rgba(251,191,36,0.2);
         }
-        .spin-btn-main:active:not(:disabled) {
-            transform: translate(-50%, -50%) scale(0.95);
-        }
-        .spin-btn-main:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            filter: grayscale(0.5);
-        }
+        .spin-btn-main:active:not(:disabled) { transform: translate(-50%, -50%) scale(0.95); }
+        .spin-btn-main:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.5); }
         .spin-btn-main.free-spin-active {
             background: linear-gradient(145deg, #22d3ee, #06b6d4, #0891b2);
             box-shadow: 0 0 25px rgba(6,182,212,0.5), 0 0 50px rgba(6,182,212,0.15);
@@ -289,161 +211,92 @@
             0%, 100% { box-shadow: 0 0 25px rgba(6,182,212,0.5); }
             50% { box-shadow: 0 0 40px rgba(6,182,212,0.8), 0 0 60px rgba(6,182,212,0.3); }
         }
-        .spin-btn-main.spinning {
-            animation: spinBtnPulse 0.5s ease-in-out infinite;
-        }
+        .spin-btn-main.spinning { animation: spinBtnPulse 0.5s ease-in-out infinite; }
         @keyframes spinBtnPulse {
             0%, 100% { box-shadow: 0 0 20px rgba(251,191,36,0.4); }
             50% { box-shadow: 0 0 35px rgba(251,191,36,0.7); }
         }
-
-        /* LED لمبات حول العجلة */
         .led-ring {
-            position: absolute;
-            inset: -6px;
-            border-radius: 50%;
-            z-index: 5;
-            pointer-events: none;
+            position: absolute; inset: -6px; border-radius: 50%;
+            z-index: 5; pointer-events: none;
         }
         .led-dot {
-            position: absolute;
-            width: 5px; height: 5px;
-            border-radius: 50%;
+            position: absolute; width: 5px; height: 5px; border-radius: 50%;
             background: var(--accent);
             box-shadow: 0 0 6px var(--accent), 0 0 12px rgba(251,191,36,0.3);
             transition: opacity 0.1s;
         }
         .led-dot.off { opacity: 0.15; box-shadow: none; }
-
-        /* === كانفاس الكونفيتي === */
-        .confetti-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 150;
-            pointer-events: none;
-        }
-
-        /* === مودال النتيجة === */
+        .confetti-canvas { position: fixed; inset: 0; z-index: 150; pointer-events: none; }
         .result-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            opacity: 0;
-            visibility: hidden;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px); display: flex; align-items: center;
+            justify-content: center; z-index: 200;
+            opacity: 0; visibility: hidden;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .result-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
+        .result-modal.show { opacity: 1; visibility: visible; }
         .result-box {
             background: linear-gradient(160deg, rgba(30,30,55,0.98), rgba(15,15,30,0.98));
-            border: 2px solid var(--accent);
-            border-radius: 28px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            max-width: 330px;
-            width: 90%;
+            border: 2px solid var(--accent); border-radius: 28px;
+            padding: 2.5rem 2rem; text-align: center;
+            max-width: 330px; width: 90%;
             transform: scale(0.5) translateY(40px);
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 0 60px rgba(251,191,36,0.15), 0 25px 50px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-        .result-modal.show .result-box {
-            transform: scale(1) translateY(0);
-        }
+        .result-modal.show .result-box { transform: scale(1) translateY(0); }
         .result-box::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 28px;
+            content: ''; position: absolute; inset: -2px; border-radius: 28px;
             background: conic-gradient(from 0deg, transparent, rgba(251,191,36,0.2), transparent, rgba(251,191,36,0.2), transparent);
-            animation: borderSpin 3s linear infinite;
-            z-index: -1;
+            animation: borderSpin 3s linear infinite; z-index: -1;
         }
         @keyframes borderSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .result-box.lose-box { border-color: var(--danger); }
         .result-box.lose-box::before {
             background: conic-gradient(from 0deg, transparent, rgba(239,68,68,0.15), transparent, rgba(239,68,68,0.15), transparent);
         }
-
         .res-icon {
-            font-size: 4rem;
-            display: inline-block;
+            font-size: 4rem; display: inline-block;
             animation: iconEntry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            animation-delay: 0.2s;
-            opacity: 0;
-            transform: scale(0);
+            animation-delay: 0.2s; opacity: 0; transform: scale(0);
         }
         @keyframes iconEntry {
             to { opacity: 1; transform: scale(1) rotate(10deg); }
         }
-
         .result-prize-text {
-            font-size: 2rem;
-            font-weight: 900;
+            font-size: 2rem; font-weight: 900;
             background: linear-gradient(180deg, #fef3c7, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .result-prize-text.lose-text {
             background: linear-gradient(180deg, #fca5a5, #ef4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         .result-ok-btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 16px;
-            font-weight: 900;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
+            width: 100%; padding: 14px; border-radius: 16px;
+            font-weight: 900; font-size: 1rem; border: none; cursor: pointer;
             background: linear-gradient(135deg, #fcd34d, #f59e0b);
-            color: #000;
-            box-shadow: 0 4px 20px rgba(251,191,36,0.3);
-            transition: all 0.3s;
-            margin-top: 1.5rem;
+            color: #000; box-shadow: 0 4px 20px rgba(251,191,36,0.3);
+            transition: all 0.3s; margin-top: 1.5rem;
         }
         .result-ok-btn:active { transform: scale(0.96); }
         .result-ok-btn.lose-btn {
             background: linear-gradient(135deg, #f87171, #ef4444);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(239,68,68,0.3);
+            color: #fff; box-shadow: 0 4px 20px rgba(239,68,68,0.3);
         }
-
-        /* === التوست === */
         .toast {
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
+            position: fixed; bottom: 90px; left: 50%;
             transform: translateX(-50%) translateY(80px);
             background: linear-gradient(135deg, rgba(30,30,55,0.98), rgba(20,20,40,0.98));
-            border: 1px solid var(--danger);
-            padding: 14px 28px;
-            border-radius: 16px;
-            font-weight: 700;
-            z-index: 300;
-            opacity: 0;
+            border: 1px solid var(--danger); padding: 14px 28px; border-radius: 16px;
+            font-weight: 700; z-index: 300; opacity: 0;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             white-space: nowrap;
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* === تأثير الاهتزاز === */
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .shake { animation: shakeIt 0.5s ease-in-out; }
         @keyframes shakeIt {
             0%, 100% { transform: translateX(0); }
@@ -454,67 +307,43 @@
             75% { transform: translateX(-3px); }
             90% { transform: translateX(3px); }
         }
-
-        /* === عداد الرصيد المتحرك === */
         .balance-change {
-            position: absolute;
-            font-weight: 900;
-            font-size: 1.2rem;
-            pointer-events: none;
-            z-index: 100;
+            position: absolute; font-weight: 900; font-size: 1.2rem;
+            pointer-events: none; z-index: 100;
             animation: floatUp 1.5s ease-out forwards;
         }
         .balance-change.win { color: var(--success); text-shadow: 0 0 10px rgba(16,185,129,0.5); }
-        .balance-change.lose { color: var(--danger); text-shadow: 0 0 10px rgba(239,68,68,0.5); }
+        .balance-change.lose-c { color: var(--danger); text-shadow: 0 0 10px rgba(239,68,68,0.5); }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
             50% { opacity: 1; transform: translateY(-30px) scale(1.2); }
             100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
         }
-
-        /* === سطر فاصل مزخرف === */
         .fancy-divider {
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(251,191,36,0.2), transparent);
-            margin: 0 auto;
-            width: 60%;
+            margin: 0 auto; width: 60%;
         }
-
-        /* === استجابة === */
+        .sound-toggle {
+            position: fixed; top: 12px; left: 12px;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(30,30,55,0.8); border: 1px solid rgba(255,255,255,0.1);
+            color: white; font-size: 1rem; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; z-index: 100;
+            backdrop-filter: blur(10px); transition: all 0.3s;
+        }
+        .sound-toggle:active { transform: scale(0.9); }
         @media (max-height: 700px) {
             .wheel-stage { width: 280px; height: 280px; margin: 8px auto; }
             .jackpot-value { font-size: 1.6rem; }
             .balance-num { font-size: 1.3rem; }
         }
-
-        /* تقليل الحركة */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 transition-duration: 0.01ms !important;
             }
         }
-
-        /* شريط الصوت */
-        .sound-toggle {
-            position: fixed;
-            top: 12px;
-            left: 12px;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: rgba(30,30,55,0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-        }
-        .sound-toggle:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
@@ -527,14 +356,12 @@
 <button class="sound-toggle" id="soundToggle" aria-label="تبديل الصوت">🔊</button>
 
 <main class="relative z-10 max-w-md mx-auto px-4 py-5">
-
     <section class="jackpot-card p-5 mb-5 text-center">
         <div class="jackpot-crown">👑</div>
         <div class="jackpot-label mt-1">جائزة كبرى</div>
         <div class="jackpot-value my-2" id="displayJackpot">0</div>
         <div class="fancy-divider"></div>
     </section>
-
     <section class="user-panel p-4 mb-5" id="userPanel">
         <div class="flex justify-between items-center">
             <div>
@@ -547,7 +374,6 @@
             <a href="https://t.me/ichancey_cash_bot?start=deposit" class="deposit-btn">إيداع</a>
         </div>
     </section>
-
     <section class="wheel-stage mb-6" id="wheelStage">
         <div class="wheel-outer-ring-2"></div>
         <div class="wheel-outer-ring"></div>
@@ -571,7 +397,6 @@
         <canvas id="wheelCanvas" width="340" height="340"></canvas>
         <button class="spin-btn-main" id="btnSpin" aria-label="دوران العجلة">دور<br>الآن</button>
     </section>
-
 </main>
 
 <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
@@ -616,7 +441,7 @@ let state = {
 };
 let tgApp = null;
 
-// ===== نظام الصوت (Web Audio API) =====
+// ===== نظام الصوت =====
 let audioCtx = null;
 function getAudioCtx() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -624,7 +449,6 @@ function getAudioCtx() {
     return audioCtx;
 }
 
-// صوت "تك" عند مرور كل قطعة
 function playTick() {
     if (!state.soundOn) return;
     try {
@@ -637,17 +461,14 @@ function playTick() {
         osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
         gain.gain.setValueAtTime(0.15, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.08);
+        osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.08);
     } catch(e) {}
 }
 
-// صوت بدء الدوران
 function playSpinStart() {
     if (!state.soundOn) return;
     try {
         const ctx = getAudioCtx();
-        // ووش صاعد
         const noise = ctx.createBufferSource();
         const buf = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate);
         const data = buf.getChannelData(0);
@@ -666,12 +487,11 @@ function playSpinStart() {
     } catch(e) {}
 }
 
-// صوت فوز
 function playWinSound() {
     if (!state.soundOn) return;
     try {
         const ctx = getAudioCtx();
-        const notes = [523, 659, 784, 1047]; // C5 E5 G5 C6
+        const notes = [523, 659, 784, 1047];
         notes.forEach((freq, i) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
@@ -684,21 +504,22 @@ function playWinSound() {
             osc.start(ctx.currentTime + i * 0.12);
             osc.stop(ctx.currentTime + i * 0.12 + 0.4);
         });
-        // صدى إضافي
         setTimeout(() => {
-            const osc2 = ctx.createOscillator();
-            const g2 = ctx.createGain();
-            osc2.connect(g2); g2.connect(ctx.destination);
-            osc2.type = 'sine';
-            osc2.frequency.setValueAtTime(1047, ctx.currentTime);
-            g2.gain.setValueAtTime(0.1, ctx.currentTime);
-            g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
-            osc2.start(ctx.currentTime); osc2.stop(ctx.currentTime + 1);
+            try {
+                const ctx2 = getAudioCtx();
+                const osc2 = ctx2.createOscillator();
+                const g2 = ctx2.createGain();
+                osc2.connect(g2); g2.connect(ctx2.destination);
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(1047, ctx2.currentTime);
+                g2.gain.setValueAtTime(0.1, ctx2.currentTime);
+                g2.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 1);
+                osc2.start(ctx2.currentTime); osc2.stop(ctx2.currentTime + 1);
+            } catch(e) {}
         }, 500);
     } catch(e) {}
 }
 
-// صوت خسارة
 function playLoseSound() {
     if (!state.soundOn) return;
     try {
@@ -715,7 +536,6 @@ function playLoseSound() {
     } catch(e) {}
 }
 
-// صوت نقر الزر
 function playClickSound() {
     if (!state.soundOn) return;
     try {
@@ -734,7 +554,7 @@ function playClickSound() {
 // ===== خلفية الجزيئات =====
 const bgCanvas = document.getElementById('bgCanvas');
 const bgCtx = bgCanvas.getContext('2d');
-let particles = [];
+let bgParticles = [];
 
 function resizeBg() {
     bgCanvas.width = window.innerWidth;
@@ -743,34 +563,33 @@ function resizeBg() {
 resizeBg();
 window.addEventListener('resize', resizeBg);
 
-function initParticles() {
-    particles = [];
-    const count = Math.min(60, Math.floor(window.innerWidth * window.innerHeight / 15000));
+function initBgParticles() {
+    bgParticles = [];
+    const count = Math.min(50, Math.floor(window.innerWidth * window.innerHeight / 18000));
     for (let i = 0; i < count; i++) {
-        particles.push({
+        bgParticles.push({
             x: Math.random() * bgCanvas.width,
             y: Math.random() * bgCanvas.height,
             r: Math.random() * 1.5 + 0.3,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3 - 0.1,
-            alpha: Math.random() * 0.4 + 0.1,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25 - 0.08,
+            alpha: Math.random() * 0.35 + 0.1,
             color: Math.random() > 0.7 ? '251,191,36' : (Math.random() > 0.5 ? '6,182,212' : '255,255,255')
         });
     }
 }
-initParticles();
+initBgParticles();
 
 function drawBg() {
     bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-    particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
+    bgParticles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
         if (p.x < 0) p.x = bgCanvas.width;
         if (p.x > bgCanvas.width) p.x = 0;
         if (p.y < 0) p.y = bgCanvas.height;
         if (p.y > bgCanvas.height) p.y = 0;
         bgCtx.beginPath();
-        bgCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        bgCtx.arc(p.x, p.y, Math.max(0.1, p.r), 0, Math.PI * 2);
         bgCtx.fillStyle = `rgba(${p.color},${p.alpha})`;
         bgCtx.fill();
     });
@@ -778,22 +597,20 @@ function drawBg() {
 }
 drawBg();
 
-// ===== LED لمبات حول العجلة =====
-const ledRing = document.getElementById('ledRing');
-const LED_COUNT = 30;
+// ===== LED لمبات =====
 let ledDots = [];
 let ledState = 0;
+let ledBaseInterval = null;
+let ledFastInterval = null;
 
 function createLEDs() {
     const ringEl = document.getElementById('ledRing');
     const stageW = 340;
-    const cx = stageW / 2;
-    const cy = stageW / 2;
-    const r = stageW / 2 + 4;
-    for (let i = 0; i < LED_COUNT; i++) {
-        const angle = (i / LED_COUNT) * Math.PI * 2 - Math.PI / 2;
-        const x = cx + r * Math.cos(angle) - 2.5;
-        const y = cy + r * Math.sin(angle) - 2.5;
+    const cxC = stageW / 2, cyC = stageW / 2, r = stageW / 2 + 4;
+    for (let i = 0; i < 30; i++) {
+        const angle = (i / 30) * Math.PI * 2 - Math.PI / 2;
+        const x = cxC + r * Math.cos(angle) - 2.5;
+        const y = cyC + r * Math.sin(angle) - 2.5;
         const dot = document.createElement('div');
         dot.className = 'led-dot';
         dot.style.left = x + 'px';
@@ -810,19 +627,35 @@ function animateLEDs() {
         dot.classList.toggle('off', !on);
         if (on) {
             const colors = ['#fbbf24', '#f59e0b', '#fcd34d'];
-            dot.style.background = colors[(i + ledState) % 3];
-            dot.style.boxShadow = `0 0 6px ${colors[(i + ledState) % 3]}, 0 0 12px rgba(251,191,36,0.3)`;
+            const c = colors[(i + ledState) % 3];
+            dot.style.background = c;
+            dot.style.boxShadow = `0 0 6px ${c}, 0 0 12px rgba(251,191,36,0.3)`;
         }
     });
     ledState++;
 }
-setInterval(animateLEDs, state.isSpinning ? 80 : 400);
 
-// تغيير سرعة اللمبات عند الدوران
-const origSetInterval = setInterval;
-function updateLEDSpeed() {
-    // تُدار عبر متغير
+// تشغيل LED بالسرعة العادية
+function startLEDNormal() {
+    stopLEDFast();
+    if (!ledBaseInterval) {
+        ledBaseInterval = setInterval(animateLEDs, 400);
+    }
 }
+function stopLEDNormal() {
+    if (ledBaseInterval) { clearInterval(ledBaseInterval); ledBaseInterval = null; }
+}
+function startLEDFast() {
+    stopLEDNormal();
+    if (!ledFastInterval) {
+        ledFastInterval = setInterval(animateLEDs, 80);
+    }
+}
+function stopLEDFast() {
+    if (ledFastInterval) { clearInterval(ledFastInterval); ledFastInterval = null; }
+}
+
+startLEDNormal();
 
 // ===== رسم العجلة =====
 const canvas = document.getElementById('wheelCanvas');
@@ -835,7 +668,7 @@ const sliceAngle = (2 * Math.PI) / PRIZES.length;
 function drawWheel() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // ظل العجلة
+    // ظل
     ctx.save();
     ctx.beginPath();
     ctx.arc(cCX, cCY + 4, wheelRadius + 4, 0, Math.PI * 2);
@@ -844,70 +677,39 @@ function drawWheel() {
     ctx.fill();
     ctx.restore();
 
-    // رسم القطاعات
     PRIZES.forEach((p, i) => {
         const startAngle = i * sliceAngle - Math.PI / 2;
         const endAngle = startAngle + sliceAngle;
-
-        // تدرج لوني لكل قطاع
         const grad = ctx.createRadialGradient(cCX, cCY, 20, cCX, cCY, wheelRadius);
         grad.addColorStop(0, p.colorEnd);
         grad.addColorStop(1, p.color);
-
-        ctx.beginPath();
-        ctx.moveTo(cCX, cCY);
+        ctx.beginPath(); ctx.moveTo(cCX, cCY);
         ctx.arc(cCX, cCY, wheelRadius, startAngle, endAngle);
-        ctx.closePath();
-        ctx.fillStyle = grad;
-        ctx.fill();
+        ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 2; ctx.stroke();
 
-        // حدود القطاع
-        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // خط داخلي مضيء
-        ctx.beginPath();
-        ctx.moveTo(cCX, cCY);
-        ctx.arc(cCX, cCY, wheelRadius, startAngle, endAngle);
-        ctx.closePath();
-        ctx.strokeStyle = 'rgba(255,255,255,0.07)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // النص
         ctx.save();
         ctx.translate(cCX, cCY);
         ctx.rotate(startAngle + sliceAngle / 2);
         ctx.translate(wheelRadius * 0.68, 0);
         ctx.rotate(Math.PI / 2);
-
-        ctx.fillStyle = '#fff';
-        ctx.shadowColor = 'rgba(0,0,0,0.8)';
-        ctx.shadowBlur = 4;
+        ctx.fillStyle = '#fff'; ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 4;
         ctx.textAlign = 'center';
-
-        // أيقونة صغيرة
         ctx.font = '14px sans-serif';
         ctx.fillText(p.icon, 0, -18);
-
         ctx.font = 'bold 13px Tajawal';
         ctx.fillText(p.label, 0, -2);
         ctx.font = '9px Tajawal';
         ctx.fillStyle = 'rgba(255,255,255,0.7)';
         ctx.fillText(p.sub, 0, 12);
-
         ctx.restore();
     });
 
-    // حلقة خارجية مزخرفة
+    // حلقة خارجية
     ctx.beginPath();
     ctx.arc(cCX, cCY, wheelRadius + 2, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(251,191,36,0.3)';
-    ctx.lineWidth = 3;
-    ctx.stroke();
+    ctx.strokeStyle = 'rgba(251,191,36,0.3)'; ctx.lineWidth = 3; ctx.stroke();
 
-    // نقاط صغيرة على الحلقة الخارجية
     for (let i = 0; i < 40; i++) {
         const a = (i / 40) * Math.PI * 2;
         const x = cCX + (wheelRadius + 2) * Math.cos(a);
@@ -918,28 +720,19 @@ function drawWheel() {
         ctx.fill();
     }
 
-    // مركز العجلة
+    // مركز
     const centerGrad = ctx.createRadialGradient(cCX, cCY, 0, cCX, cCY, 38);
     centerGrad.addColorStop(0, '#2a2a45');
     centerGrad.addColorStop(0.7, '#1a1a30');
     centerGrad.addColorStop(1, '#0f0f20');
-    ctx.beginPath();
-    ctx.arc(cCX, cCY, 38, 0, Math.PI * 2);
-    ctx.fillStyle = centerGrad;
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(251,191,36,0.5)';
-    ctx.lineWidth = 2.5;
-    ctx.stroke();
-
-    // حلقة داخلية مضيئة
-    ctx.beginPath();
-    ctx.arc(cCX, cCY, 30, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(251,191,36,0.15)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
+    ctx.beginPath(); ctx.arc(cCX, cCY, 38, 0, Math.PI * 2);
+    ctx.fillStyle = centerGrad; ctx.fill();
+    ctx.strokeStyle = 'rgba(251,191,36,0.5)'; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cCX, cCY, 30, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(251,191,36,0.15)'; ctx.lineWidth = 1; ctx.stroke();
 }
 
-// ===== نظام الكونفيتي =====
+// ===== كونفيتي =====
 const confettiCanvas = document.getElementById('confettiCanvas');
 const confCtx = confettiCanvas.getContext('2d');
 let confettiPieces = [];
@@ -955,12 +748,12 @@ window.addEventListener('resize', resizeConfetti);
 function launchConfetti() {
     confettiPieces = [];
     const colors = ['#fbbf24', '#fcd34d', '#10b981', '#06b6d4', '#f43f5e', '#8b5cf6', '#fff'];
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 100; i++) {
         confettiPieces.push({
             x: confettiCanvas.width / 2 + (Math.random() - 0.5) * 200,
             y: confettiCanvas.height / 2 - 100,
-            vx: (Math.random() - 0.5) * 15,
-            vy: -Math.random() * 15 - 5,
+            vx: (Math.random() - 0.5) * 14,
+            vy: -Math.random() * 14 - 4,
             w: Math.random() * 8 + 4,
             h: Math.random() * 6 + 3,
             color: colors[Math.floor(Math.random() * colors.length)],
@@ -968,7 +761,7 @@ function launchConfetti() {
             rotSpeed: (Math.random() - 0.5) * 15,
             gravity: 0.3 + Math.random() * 0.2,
             alpha: 1,
-            decay: 0.003 + Math.random() * 0.005
+            decay: 0.004 + Math.random() * 0.005
         });
     }
     confettiActive = true;
@@ -982,14 +775,9 @@ function animateConfetti() {
     confettiPieces.forEach(p => {
         if (p.alpha <= 0) return;
         alive = true;
-        p.x += p.vx;
-        p.vy += p.gravity;
-        p.y += p.vy;
-        p.vx *= 0.98;
-        p.rotation += p.rotSpeed;
-        p.alpha -= p.decay;
+        p.x += p.vx; p.vy += p.gravity; p.y += p.vy;
+        p.vx *= 0.98; p.rotation += p.rotSpeed; p.alpha -= p.decay;
         if (p.alpha < 0) p.alpha = 0;
-
         confCtx.save();
         confCtx.translate(p.x, p.y);
         confCtx.rotate((p.rotation * Math.PI) / 180);
@@ -998,43 +786,72 @@ function animateConfetti() {
         confCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
         confCtx.restore();
     });
-    if (alive) {
-        requestAnimationFrame(animateConfetti);
-    } else {
+    if (alive) requestAnimationFrame(animateConfetti);
+    else {
         confettiActive = false;
         confCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
     }
 }
 
-// ===== اهتزاز هاتفي =====
+// ===== اهتزاز =====
 function haptic(style) {
-    try {
-        if (tgApp && tgApp.HapticFeedback) {
-            tgApp.HapticFeedback.impactOccurred(style);
-        }
-    } catch(e) {}
+    try { if (tgApp && tgApp.HapticFeedback) tgApp.HapticFeedback.impactOccurred(style); } catch(e) {}
 }
 
-// ===== تغيير الرصيد المتحرك =====
+// ===== تغيير الرصيد العائم =====
 function showBalanceChange(amount, isWin) {
     const panel = document.getElementById('userPanel');
     const el = document.createElement('div');
-    el.className = 'balance-change ' + (isWin ? 'win' : 'lose');
+    el.className = 'balance-change ' + (isWin ? 'win' : 'lose-c');
     el.textContent = (isWin ? '+' : '-') + amount.toLocaleString();
-    el.style.left = '50%';
-    el.style.top = '10px';
+    el.style.left = '50%'; el.style.top = '10px';
     el.style.transform = 'translateX(-50%)';
     panel.style.position = 'relative';
     panel.appendChild(el);
-    setTimeout(() => el.remove(), 1600);
+    setTimeout(() => { if (el.parentNode) el.remove(); }, 1600);
 }
 
-// ===== اتصال تيليجرام =====
+// ===== نظام التكات - requestAnimationFrame =====
+let tickRAF = null;
+
+function startTickSound(durationMs) {
+    stopTickSound();
+    const startTime = performance.now();
+    let lastTickTime = 0;
+    const ptr = document.getElementById('pointerBox');
+
+    function tick(now) {
+        const elapsed = now - startTime;
+        if (elapsed >= durationMs) {
+            stopTickSound();
+            return;
+        }
+        // الفترة تزداد تدريجياً (من 80ms إلى ~500ms) لمحاكاة التباطؤ
+        const progress = elapsed / durationMs;
+        const interval = 80 + progress * progress * 420;
+
+        if (elapsed - lastTickTime >= interval) {
+            playTick();
+            ptr.classList.remove('bounce');
+            void ptr.offsetWidth;
+            ptr.classList.add('bounce');
+            lastTickTime = elapsed;
+            if (Math.random() > 0.6) haptic('light');
+        }
+        tickRAF = requestAnimationFrame(tick);
+    }
+    tickRAF = requestAnimationFrame(tick);
+}
+
+function stopTickSound() {
+    if (tickRAF) { cancelAnimationFrame(tickRAF); tickRAF = null; }
+}
+
+// ===== تيليجرام =====
 async function initTelegram() {
     try {
         tgApp = window.Telegram.WebApp;
-        tgApp.ready();
-        tgApp.expand();
+        tgApp.ready(); tgApp.expand();
         if (tgApp.initDataUnsafe && tgApp.initDataUnsafe.user) {
             state.userId = tgApp.initDataUnsafe.user.id;
             await fetchUserData();
@@ -1072,10 +889,10 @@ async function fetchUserData() {
     } catch (e) { showToast("فشل الاتصال بالسيرفر"); }
 }
 
-// ===== الدوران =====
-let tickInterval = null;
-let ledSpeedInterval = null;
+// ===== مدة الدوران =====
+const SPIN_DURATION_MS = 5500;
 
+// ===== الدوران =====
 async function spin() {
     if (state.isSpinning) return;
     if (!state.userId) { showToast("يجب التسجيل أولاً"); return; }
@@ -1091,13 +908,13 @@ async function spin() {
     playClickSound();
     haptic('medium');
     state.isSpinning = true;
-    document.getElementById('btnSpin').disabled = true;
-    document.getElementById('btnSpin').innerHTML = '...';
-    document.getElementById('btnSpin').classList.add('spinning');
+    const btn = document.getElementById('btnSpin');
+    btn.disabled = true;
+    btn.innerHTML = '...';
+    btn.classList.add('spinning');
 
-    // تسريع لمبات LED
-    clearInterval(ledSpeedInterval);
-    ledSpeedInterval = setInterval(animateLEDs, 80);
+    // تسريع LED
+    startLEDFast();
 
     try {
         const res = await fetch(CONFIG.baseUrl + '/api/spin', {
@@ -1120,71 +937,51 @@ async function spin() {
             showToast(data.message);
             state.isSpinning = false;
             updateUI();
-            clearInterval(ledSpeedInterval);
+            startLEDNormal();
         }
     } catch(e) {
         showToast("خطأ اتصال");
         state.isSpinning = false;
         updateUI();
-        clearInterval(ledSpeedInterval);
+        startLEDNormal();
     }
 }
 
 function animateWheel(targetIndex, prize, winAmount, oldBalance) {
+    // حساب الزاوية المطلوبة
     const targetAngleDeg = (targetIndex * 36) + 18;
     const stopAtDeg = 360 - targetAngleDeg;
     const spins = 5 + Math.floor(Math.random() * 3);
-    const totalRotationDeg = (spins * 360) + stopAtDeg;
+    const addedRotation = (spins * 360) + stopAtDeg;
 
-    canvas.style.transition = 'transform 5.5s cubic-bezier(0.15, 0.85, 0.25, 1)';
-    canvas.style.transform = `rotate(${totalRotationDeg}deg)`;
-    state.currentRotation = totalRotationDeg;
+    // *** الإصلاح الأساسي: تراكم الدوران ***
+    state.currentRotation += addedRotation;
 
-    // أصوات تك تك أثناء الدوران
-    let tickCount = 0;
-    const maxTicks = spins * 10 + 8;
-    clearInterval(tickInterval);
-    tickInterval = setInterval(() => {
-        tickCount++;
-        playTick();
-        // ارتداد المؤشر
-        const ptr = document.getElementById('pointerBox');
-        ptr.classList.remove('bounce');
-        void ptr.offsetWidth; // إعادة تشغيل الأنيميشن
-        ptr.classList.add('bounce');
+    // *** إصلاح: إزالة الترانزيشن أولاً، إجبار reflow، ثم تطبيق الجديد ***
+    canvas.style.transition = 'none';
+    // نطبق الزاوية الحالية بدون ترانزيشن (للتأكد من نقطة البداية)
+    canvas.style.transform = `rotate(${state.currentRotation - addedRotation}deg)`;
+    // إجبار المتصفح على حساب القيمة الحالية
+    void canvas.offsetHeight;
+    // الآن نطبيف الترانزيشن ونضيف الدوران الجديد
+    canvas.style.transition = `transform ${SPIN_DURATION_MS}ms cubic-bezier(0.15, 0.85, 0.25, 1)`;
+    canvas.style.transform = `rotate(${state.currentRotation}deg)`;
 
-        // تباطؤ التكات
-        if (tickCount > maxTicks * 0.6) {
-            clearInterval(tickInterval);
-            const slowTick = setInterval(() => {
-                tickCount++;
-                playTick();
-                ptr.classList.remove('bounce');
-                void ptr.offsetWidth;
-                ptr.classList.add('bounce');
-                if (tickCount > maxTicks) {
-                    clearInterval(slowTick);
-                }
-            }, 150 + (tickCount - maxTicks * 0.6) * 20);
-        }
+    // بدء أصوات التكات
+    startTickSound(SPIN_DURATION_MS);
 
-        // اهتزاز خفيف
-        if (tickCount % 3 === 0) haptic('light');
-    }, 100);
-
+    // عند انتهاء الدوران
     setTimeout(() => {
-        clearInterval(tickInterval);
-        clearInterval(ledSpeedInterval);
-        ledSpeedInterval = setInterval(animateLEDs, 400);
+        stopTickSound();
+        startLEDNormal();
 
-        // إزالة أنيميشن الزر
-        document.getElementById('btnSpin').classList.remove('spinning');
+        const btn = document.getElementById('btnSpin');
+        btn.classList.remove('spinning');
 
-        // التعامل مع النتيجة
         handleResult(prize, winAmount, oldBalance);
         state.isSpinning = false;
         updateUI();
-    }, 5700);
+    }, SPIN_DURATION_MS + 200);
 }
 
 function handleResult(prize, winAmount, oldBalance) {
@@ -1192,7 +989,6 @@ function handleResult(prize, winAmount, oldBalance) {
     const resultBox = document.getElementById('resultBox');
     const resOkBtn = document.getElementById('resOkBtn');
 
-    // تعديل مودال حسب النتيجة
     resultBox.classList.toggle('lose-box', isLose);
     resOkBtn.classList.toggle('lose-btn', isLose);
     document.getElementById('resIcon').textContent = prize.icon;
@@ -1218,15 +1014,10 @@ function handleResult(prize, winAmount, oldBalance) {
         playWinSound();
         haptic('success');
         launchConfetti();
-        if (prize.type === 'cash') {
-            showBalanceChange(winAmount, true);
-        }
-        // توهج إضافي
+        if (prize.type === 'cash') showBalanceChange(winAmount, true);
         const glow = document.getElementById('wheelGlow');
         glow.style.background = 'radial-gradient(circle, rgba(251,191,36,0.4) 0%, transparent 70%)';
-        setTimeout(() => {
-            glow.style.background = '';
-        }, 2000);
+        setTimeout(() => { glow.style.background = ''; }, 2000);
     }
 
     document.getElementById('modalResult').classList.add('show');
@@ -1267,13 +1058,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initTelegram();
     document.getElementById('btnSpin').addEventListener('click', spin);
 
-    // تأثير لمس أولي لتفعيل AudioContext
-    document.body.addEventListener('click', () => {
+    // تفعيل AudioContext عند أول تفاعل
+    const unlock = () => {
         if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-    }, { once: true });
-    document.body.addEventListener('touchstart', () => {
-        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-    }, { once: true });
+    };
+    document.body.addEventListener('click', unlock, { once: true });
+    document.body.addEventListener('touchstart', unlock, { once: true });
 });
 </script>
 </body>
